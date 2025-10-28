@@ -1,4 +1,7 @@
 {
+  "buildCommand": "cd frontend-react && npm run build && rm -rf ../public/* && cp -r dist/* ../public/",
+  "outputDirectory": "public",
+  "installCommand": "cd frontend-react && npm install",
   "rewrites": [
     {
       "source": "/api/(.*)",
