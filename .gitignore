@@ -20,8 +20,6 @@ backend-fastapi/__pycache__/
 backend-fastapi/temp_audio/
 
 poc/
-alibabacloud-nls-python-sdk-dev/.idea/
-alibabacloud-nls-python-sdk-dev/__pycache__/
 
 deploy/
 新建 DOCX 文档.docx
