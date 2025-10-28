@@ -17,7 +17,7 @@ except ImportError as e:
     sys.exit(1)
 
 # Vercel入口点
-def handler_vercel(request):
+def handler(request):
     """
     Vercel函数入口点
     """
