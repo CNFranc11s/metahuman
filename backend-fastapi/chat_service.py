@@ -2,21 +2,8 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Sequence
 from uuid import uuid4
-
-from langchain.memory import ConversationBufferMemory
-from langchain.schema import AIMessage, HumanMessage, messages_from_dict, messages_to_dict
-
-try:  # Optional dependency: langchain + OpenAI backend
-    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-    from langchain_core.output_parsers import StrOutputParser
-    from langchain_openai import ChatOpenAI
-except Exception:  # pragma: no cover - allow running without LLM deps
-    ChatPromptTemplate = None  # type: ignore
-    MessagesPlaceholder = None  # type: ignore
-    StrOutputParser = None  # type: ignore
-    ChatOpenAI = None  # type: ignore
 
 from models import Scenario
 
@@ -50,6 +37,78 @@ def _fallback_reply(data: dict) -> str:
         else "Maintain your pace and add feelings/opinions to sound more natural."
     )
     return " ".join([intro, guidance, follow_up, tip])
+
+
+@dataclass
+class BaseMessage:
+    content: str
+
+
+@dataclass
+class HumanMessage(BaseMessage):
+    pass
+
+
+@dataclass
+class AIMessage(BaseMessage):
+    pass
+
+
+class _SimpleChatMemory:
+    """Lightweight chat memory compatible with previous langchain usage."""
+
+    def __init__(self) -> None:
+        self.messages: list[BaseMessage] = []
+
+    def add_message(self, message: BaseMessage) -> None:
+        self.messages.append(message)
+
+
+@dataclass
+class ConversationBufferMemory:
+    """Minimal drop-in replacement for langchain's ConversationBufferMemory."""
+
+    memory_key: str = "history"
+    return_messages: bool = True
+    chat_memory: _SimpleChatMemory = field(default_factory=_SimpleChatMemory)
+
+
+def messages_from_dict(items: Sequence[dict]) -> list[BaseMessage]:
+    result: list[BaseMessage] = []
+    for item in items:
+        role = item.get("role")
+        content = item.get("content", "")
+        if role == "user":
+            result.append(HumanMessage(content=content))
+        elif role == "assistant":
+            result.append(AIMessage(content=content))
+        else:
+            result.append(BaseMessage(content=content))
+    return result
+
+
+def messages_to_dict(messages: Sequence[BaseMessage]) -> list[dict]:
+    payload: list[dict] = []
+    for message in messages:
+        if isinstance(message, HumanMessage):
+            role = "user"
+        elif isinstance(message, AIMessage):
+            role = "assistant"
+        else:
+            role = "system"
+        payload.append({"role": role, "content": message.content})
+    return payload
+
+
+try:  # Optional dependency: langchain + OpenAI backend
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+    from langchain_core.output_parsers import StrOutputParser
+    from langchain_openai import ChatOpenAI
+except Exception:  # pragma: no cover - allow running without LLM deps
+    ChatPromptTemplate = None  # type: ignore
+    MessagesPlaceholder = None  # type: ignore
+    StrOutputParser = None  # type: ignore
+    ChatOpenAI = None  # type: ignore
 
 
 @dataclass

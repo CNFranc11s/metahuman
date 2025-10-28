@@ -1,7 +1,7 @@
-fastapi>=0.109.0,<1.0.0
-uvicorn[standard]>=0.25.0,<0.29.0
-langchain>=0.2.14
-langchain-openai>=0.1.0
-python-multipart>=0.0.9
-aliyun-python-sdk-core>=2.13.0
-mangum>=0.17.0
+fastapi==0.115.4
+uvicorn[standard]==0.30.3
+langchain==0.3.19
+langchain-openai==0.3.7
+python-multipart==0.0.12
+aliyun-python-sdk-core==2.16.0
+mangum==0.17.0
