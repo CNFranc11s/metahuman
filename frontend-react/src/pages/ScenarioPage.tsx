@@ -197,7 +197,7 @@ const ScenarioPage = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false)
   const [welcomeAudioPlayed, setWelcomeAudioPlayed] = useState(false)
   // Debug相关状态（已隐藏debug面板）
-  const [videoDebugInfo, setVideoDebugInfo] = useState<VideoDebugInfo>({
+  const [, setVideoDebugInfo] = useState<VideoDebugInfo>({
     mounted: false,
     loadedMetadata: false,
     loadedData: false,
