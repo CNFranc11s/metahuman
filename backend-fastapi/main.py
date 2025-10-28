@@ -2,7 +2,7 @@ import base64
 from io import BytesIO
 from pathlib import Path
 import tempfile
-from typing import Optional
+from typing import Optional, Any
 from uuid import uuid4
 import wave
 
@@ -140,6 +140,46 @@ def _build_wav_from_chunks(chunks: list[tuple[str, bytes]], sample_rate: int = 1
         wav_file.writeframes(pcm_bytes)
 
     return base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+
+@app.get("/api/debug/files")
+def debug_file_layout(path: str = ".") -> dict[str, Any]:
+    """
+    Inspect files relative to the project root during deployment.
+
+    Args:
+        path: relative path from project root to inspect.
+    """
+    project_root = Path(__file__).resolve().parents[2]
+    target = (project_root / path).resolve()
+
+    if not str(target).startswith(str(project_root)):
+        raise HTTPException(status_code=400, detail="Invalid path outside project root")
+
+    listing: Optional[list[str]] = None
+    if target.exists() and target.is_dir():
+        listing = [
+            f"{child.name}{'/' if child.is_dir() else ''}"
+            for child in sorted(target.iterdir(), key=lambda item: item.name)
+        ]
+
+    interesting_paths = {
+        "index_at_root": project_root / "index.html",
+        "frontend_dist_index": project_root / "frontend-react" / "dist" / "index.html",
+        "vercel_output_index": project_root / ".vercel" / "output" / "static" / "index.html",
+    }
+
+    return {
+        "project_root": str(project_root),
+        "requested_path": str(target),
+        "exists": target.exists(),
+        "is_dir": target.is_dir(),
+        "listing": listing,
+        "interesting": {
+            key: {"path": str(value), "exists": value.exists()}
+            for key, value in interesting_paths.items()
+        },
+    }
 
 
 @app.get("/api/scenarios", response_model=list[Scenario])
