@@ -75,3 +75,6 @@ def handler(request):
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps({"error": str(e)})
         }
+
+# 添加lambda_handler以兼容Vercel
+lambda_handler = handler
