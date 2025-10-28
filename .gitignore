@@ -20,7 +20,6 @@ backend-fastapi/__pycache__/
 backend-fastapi/temp_audio/
 
 # 敏感信息文件
-get_token.py
 *.key
 *.pem
 credentials.json

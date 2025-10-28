@@ -5,3 +5,4 @@ langchain-openai==0.3.7
 python-multipart==0.0.12
 mangum==0.17.0
 aliyun-python-sdk-core==2.15.1
+python-dotenv==1.0.0
