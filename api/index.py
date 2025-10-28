@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import json
 import os
@@ -151,11 +152,12 @@ class handler(BaseHTTPRequestHandler):
             self.send_error(500, explain="Backend not initialized")
             return
 
+        loop = asyncio.new_event_loop()
         try:
+            asyncio.set_event_loop(loop)
             body_bytes, needs_base64 = _read_request_body(self)
             event = _build_event(self, body_bytes, needs_base64)
             response = asgi_handler(event, {})
-            _write_response(self, response)
         except Exception as exc:  # pragma: no cover - degrade gracefully
             print(f"Handler error: {exc}")
             self.send_response(500)
@@ -165,6 +167,16 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
             if self.command != "HEAD":
                 self.wfile.write(payload.encode("utf-8"))
+            return
+        else:
+            _write_response(self, response)
+        finally:
+            try:
+                loop.run_until_complete(loop.shutdown_asyncgens())
+            except Exception:
+                pass
+            asyncio.set_event_loop(None)
+            loop.close()
 
     # Map HTTP verbs to the shared dispatcher
     def do_OPTIONS(self) -> None:  # noqa: N802 - required naming by BaseHTTPRequestHandler
