@@ -28,8 +28,5 @@
       "source": "/((?!api).*)",
       "destination": "/frontend-react/dist/index.html"
     }
-  ],
-  "env": {
-    "PYTHON_VERSION": "3.11"
-  }
+  ]
 }
