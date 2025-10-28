@@ -4,6 +4,3 @@ langchain==0.3.19
 langchain-openai==0.3.7
 python-multipart==0.0.12
 mangum==0.17.0
-aliyun-python-sdk-core==2.16.0
-requests>=2.28.0
-websocket-client>=1.6.0
