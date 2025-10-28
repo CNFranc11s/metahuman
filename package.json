@@ -1,0 +1,14 @@
+{
+  "name": "digital-human-app",
+  "version": "1.0.0",
+  "description": "Digital Human Application",
+  "scripts": {
+    "dev": "concurrently \"cd backend-fastapi && python main.py\" \"cd frontend-react && npm run dev\"",
+    "build": "cd frontend-react && npm run build",
+    "start": "cd backend-fastapi && python main.py",
+    "deploy": "./deploy.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

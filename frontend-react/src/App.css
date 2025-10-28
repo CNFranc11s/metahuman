@@ -1,0 +1,633 @@
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw + 1rem, 3.2rem);
+  margin: 0;
+  color: #1f2933;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #51606b;
+}
+
+.status-message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #1f2933;
+}
+
+.status-message.error {
+  color: #c0392b;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.scenario-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.scenario-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -20px rgba(15, 23, 42, 0.45);
+}
+
+.scenario-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #1b2a36;
+}
+
+.scenario-card p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #4b5964;
+}
+
+.scenario-focus {
+  margin-top: auto;
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.3rem 0.75rem;
+  background: #eef2ff;
+  color: #3949ab;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.link-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link-card:focus-visible {
+  outline: 3px solid #3949ab;
+  outline-offset: 4px;
+}
+
+.status-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 4rem 1rem;
+}
+
+.back-link {
+  font-size: 0.95rem;
+  color: #3949ab;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.scenario-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: rgb(206, 206, 206);
+  padding: 2rem 2rem 6rem;
+}
+
+.scenario-bg-video {
+  position: fixed;
+  top: 0;
+  left: 300px;
+  width: min(55vw, 720px);
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.9);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.scenario-panel {
+  max-width: 1280px;
+  margin-left: auto;
+  padding: 3rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+  width: min(640px, 92%);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.scenario-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scenario-detail-header h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw + 1rem, 2.6rem);
+  color: #1f2933;
+}
+
+.scenario-detail-header p {
+  margin: 0;
+  color: #4b5964;
+  line-height: 1.7;
+}
+
+.scenario-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.scenario-record-controls {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scenario-record-controls h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1f2933;
+}
+
+.record-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.record-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.record-status.recording,
+.record-status.session.recording {
+  color: #ef4444;
+}
+
+.record-status.processing,
+.record-status.session.processing {
+  color: #2563eb;
+}
+
+.record-status.session.saved {
+  color: #059669;
+}
+
+.record-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.record-button {
+  flex: 0 1 auto;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  background: #eef2ff;
+  color: #1f2933;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 120px;
+}
+
+.record-button.primary {
+  background: linear-gradient(135deg, #4f46e5, #6d28d9);
+  color: #ffffff;
+  box-shadow: 0 10px 24px -18px rgba(79, 70, 229, 0.8);
+}
+
+.record-button:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.record-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px -20px rgba(79, 70, 229, 0.45);
+}
+
+.session-playback {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.session-audio {
+  flex: 1 1 auto;
+  outline: none;
+}
+
+.session-download {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.session-download:hover {
+  text-decoration: underline;
+}
+
+.scenario-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.voice-switcher,
+.chat-window {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.voice-switcher h2,
+.chat-window h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1f2933;
+}
+
+.voice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.voice-info {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.voice-switcher select {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #d5d9e6;
+  background-color: #f5f7fc;
+  color: #1f2933;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.voice-switcher select:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+.chat-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chat-focus {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.chat-history {
+  min-height: 260px;
+  max-height: 360px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 0.25rem;
+}
+
+.chat-message {
+  display: flex;
+  width: 100%;
+}
+
+.chat-message.assistant {
+  justify-content: flex-start;
+}
+
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.system {
+  justify-content: center;
+}
+
+.chat-bubble {
+  padding: 0.65rem 1rem;
+  border-radius: 16px;
+  max-width: 85%;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  word-break: break-word;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-message.assistant .chat-bubble {
+  background: #eef2ff;
+  color: #1f2933;
+  border-top-left-radius: 4px;
+}
+
+.chat-message.user .chat-bubble {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  border-top-right-radius: 4px;
+}
+
+.chat-message.system .chat-bubble {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.speak-button {
+  align-self: flex-start;
+  border: none;
+  border-radius: 8px;
+  background: rgba(79, 70, 229, 0.12);
+  color: #4f46e5;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.speak-button:hover {
+  background: rgba(79, 70, 229, 0.22);
+}
+
+.speak-button.ready {
+  background: rgba(79, 70, 229, 0.18);
+}
+
+.speak-button:disabled {
+  cursor: not-allowed;
+  color: #9ca3af;
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.chat-input-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.chat-input-row input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #d5d9e6;
+  background-color: #f5f7fc;
+  color: #1f2933;
+}
+
+.chat-input-row input:disabled {
+  color: #98a1b3;
+  cursor: not-allowed;
+}
+
+.chat-input-row button {
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.chat-input-row button:disabled {
+  background: #c5cae9;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.press-to-talk-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.press-to-talk {
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: none;
+  background: rgba(79, 70, 229, 0.12);
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.press-to-talk:hover {
+  background: rgba(79, 70, 229, 0.18);
+}
+
+.press-to-talk:active {
+  transform: translateY(1px);
+}
+
+.press-to-talk:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.press-to-talk-status {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.press-to-talk-status.recording {
+  color: #ef4444;
+}
+
+.press-to-talk-status.processing {
+  color: #2563eb;
+}
+
+.chat-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #dc2626;
+}
+
+.recording-panel {
+  position: fixed;
+  left: 2rem;
+  bottom: 1rem;
+  width: min(600px, 90vw);
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 55px rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.scenario-record-controls-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.record-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.record-section h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1f2933;
+}
+
+.record-section-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.session-playback-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .scenario-bg-video {
+    width: 100%;
+    height: 45vh;
+    position: absolute;
+    opacity: 0.6;
+    left: 0;
+  }
+
+  .scenario-panel {
+    width: 100%;
+    margin: 40vh auto 0;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .recording-panel {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin: 1.5rem auto 0;
+    width: 100%;
+  }
+
+  .scenario-record-controls-horizontal {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .record-section {
+    justify-content: center;
+  }
+
+  .record-section-buttons {
+    justify-content: center;
+  }
+
+  .session-playback-horizontal {
+    justify-content: center;
+  }
+
+  .scenario-page {
+    padding: 0;
+  }
+
+  .scenario-detail-header {
+    margin-top: -2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-shell {
+    padding: 2.5rem 1.1rem 3rem;
+  }
+
+  .scenario-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 960px) {
+  .scenario-detail-body {
+    grid-template-columns: 1fr;
+  }
+
+  .scenario-detail-right {
+    order: -1;
+  }
+}
