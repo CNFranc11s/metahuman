@@ -100,11 +100,34 @@ def messages_to_dict(messages: Sequence[BaseMessage]) -> list[dict]:
     return payload
 
 
+def _to_langchain_messages(messages: Sequence[BaseMessage]):
+    if not (LCHumanMessage and LCAIMessage and LCSystemMessage):
+        return messages
+
+    converted = []
+    for message in messages:
+        if isinstance(message, HumanMessage):
+            converted.append(LCHumanMessage(content=message.content))
+        elif isinstance(message, AIMessage):
+            converted.append(LCAIMessage(content=message.content))
+        else:
+            converted.append(LCSystemMessage(content=message.content))
+    return converted
+
+
 try:  # Optional dependency: langchain + OpenAI backend
+    from langchain_core.messages import (
+        AIMessage as LCAIMessage,
+        HumanMessage as LCHumanMessage,
+        SystemMessage as LCSystemMessage,
+    )
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
     from langchain_core.output_parsers import StrOutputParser
     from langchain_openai import ChatOpenAI
 except Exception:  # pragma: no cover - allow running without LLM deps
+    LCHumanMessage = None  # type: ignore
+    LCAIMessage = None  # type: ignore
+    LCSystemMessage = None  # type: ignore
     ChatPromptTemplate = None  # type: ignore
     MessagesPlaceholder = None  # type: ignore
     StrOutputParser = None  # type: ignore
@@ -318,11 +341,14 @@ class ScenarioChatService:
     ) -> str:
         if self._llm and self._prompt and self._output_parser:
             try:
+                history_messages = _to_langchain_messages(
+                    session.memory.chat_memory.messages
+                )
                 formatted_prompt = self._prompt.format_prompt(
                     scenario_title=scenario.title,
                     scenario_focus=scenario.focus,
                     scenario_description=scenario.description,
-                    history=session.memory.chat_memory.messages,
+                    history=history_messages,
                     user_input=user_message,
                 )
                 result = self._llm.invoke(formatted_prompt.to_messages())
